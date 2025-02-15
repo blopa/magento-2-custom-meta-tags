@@ -1,0 +1,21 @@
+<?php
+/** @var \Werules\MetaTags\Block\Meta $block */
+
+if (!$block->isEnabled()) {
+    // If disabled in admin, no meta tags will be rendered
+    return;
+}
+
+$metaTags = $block->getDynamicMetaTags();
+if (!empty($metaTags)) {
+    foreach ($metaTags as $item) {
+        // Safely handle name & content
+        $name = isset($item['meta_name']) ? $block->escapeHtml($item['meta_name']) : '';
+        $content = isset($item['meta_content']) ? $block->escapeHtml($item['meta_content']) : '';
+
+        if ($name && $content) {
+            echo '<meta name="' . $name . '" content="' . $content . '" />' . "\n";
+        }
+    }
+}
+?>
